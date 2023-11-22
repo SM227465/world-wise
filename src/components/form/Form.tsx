@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import BackButton from '../back-btn/BackButton';
 import Button from '../button/Button';
 import styles from './Form.module.css';
 
@@ -8,7 +8,6 @@ const Form = () => {
   //   const [country, setCountry] = useState('');
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
-  const navigate = useNavigate();
 
   return (
     <form className={styles.form}>
@@ -36,15 +35,7 @@ const Form = () => {
         <Button type='primary' onClick={() => {}}>
           Add
         </Button>
-        <Button
-          type='back'
-          onClick={(event) => {
-            event && event.preventDefault();
-            navigate(-1);
-          }}
-        >
-          &larr; Back
-        </Button>
+        <BackButton />
       </div>
     </form>
   );
