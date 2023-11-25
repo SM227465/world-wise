@@ -3,6 +3,8 @@ import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 're
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCities } from '../../contexts/CitiesContext';
 import styles from './Map.module.css';
+import { useGeolocation } from '../../hooks/useGeolocation';
+import Button from '../button/Button';
 
 interface Props {
   position: [number, number];
@@ -27,8 +29,14 @@ const Map = () => {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState<[number, number]>([40, 0]);
   const [searchParams] = useSearchParams();
+  const {
+    isLoading: isLoadingPosition,
+    position: geoLocationPosition,
+    getPosition,
+  } = useGeolocation();
   const lat = Number(searchParams.get('lat'));
   const lng = Number(searchParams.get('lng'));
+  const hasGeoLocationPosition = 'lat' in geoLocationPosition && 'lng' in geoLocationPosition;
 
   useEffect(() => {
     if (lat && lng) {
@@ -36,8 +44,19 @@ const Map = () => {
     }
   }, [lat, lng]);
 
+  useEffect(() => {
+    if (hasGeoLocationPosition) {
+      setMapPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
+    }
+  }, [geoLocationPosition, hasGeoLocationPosition]);
+
   return (
     <div className={styles.mapContainer}>
+      {!hasGeoLocationPosition && (
+        <Button type='position' onClick={getPosition}>
+          {isLoadingPosition ? 'Loading...' : 'Use your position'}
+        </Button>
+      )}
       <MapContainer center={[lat, lng]} zoom={6} scrollWheelZoom={false} className={styles.map}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
