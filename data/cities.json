@@ -35,6 +35,90 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
+    },
+    {
+      "id": 1700919985771,
+      "cityName": "Ejulve",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "Sat Nov 25 2023 19:16:19 GMT+0530 (India Standard Time)",
+      "notes": "Test",
+      "position": {
+        "lat": 40.78054143186033,
+        "lng": -0.5493164062500001
+      }
+    },
+    {
+      "id": 1700920480346,
+      "cityName": "Kolkata",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:24:34 GMT+0530 (India Standard Time)",
+      "notes": "Now",
+      "position": {
+        "lat": 22.59245816401359,
+        "lng": 88.48937988281251
+      }
+    },
+    {
+      "id": 1700920492068,
+      "cityName": "Kolkata",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:24:48 GMT+0530 (India Standard Time)",
+      "notes": "sd",
+      "position": {
+        "lat": 22.70652233600077,
+        "lng": 88.385009765625
+      }
+    },
+    {
+      "id": 1700920836947,
+      "cityName": "Kolkata",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:30:32 GMT+0530 (India Standard Time)",
+      "notes": "nblsdbv",
+      "position": {
+        "lat": 22.860991011510595,
+        "lng": 88.39736938476564
+      }
+    },
+    {
+      "id": 1700920976184,
+      "cityName": "Kolkata",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:32:51 GMT+0530 (India Standard Time)",
+      "notes": "vsvs",
+      "position": {
+        "lat": 22.814162440824852,
+        "lng": 88.25042724609376
+      }
+    },
+    {
+      "id": 1700920993612,
+      "cityName": "Kuseshwar",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:33:05 GMT+0530 (India Standard Time)",
+      "notes": "cascas",
+      "position": {
+        "lat": 25.780107118422244,
+        "lng": 86.2646484375
+      }
+    },
+    {
+      "id": 1700921050412,
+      "cityName": "Kanke",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "Sat Nov 25 2023 19:34:06 GMT+0530 (India Standard Time)",
+      "notes": "fdfdf",
+      "position": {
+        "lat": 23.56398712845123,
+        "lng": 85.23193359375001
+      }
     }
   ]
 }

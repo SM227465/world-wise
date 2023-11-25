@@ -7,6 +7,7 @@ interface CitiesContextType {
   cities: City[];
   currentCity: City;
   getCity: (id: number) => Promise<void>;
+  createCity: (newCity: City) => Promise<void>;
 }
 
 const CitiesContext = createContext<CitiesContextType>({} as CitiesContextType);
@@ -17,7 +18,7 @@ interface Props {
 
 const CitiesProvider = (props: Props) => {
   const { children } = props;
-  const [cities, setCities] = useState([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentCity, setCurrentCity] = useState({} as City);
 
@@ -53,8 +54,30 @@ const CitiesProvider = (props: Props) => {
     }
   };
 
+  const createCity = async (newCity: City) => {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(newCity),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      setIsLoading(true);
+
+      const res = await fetch(`${BASE_URL}/cities`, options);
+      const data = await res.json();
+      setCities((prevCities) => [...prevCities, data]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>
+    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity, createCity }}>
       {children}
     </CitiesContext.Provider>
   );
