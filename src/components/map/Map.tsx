@@ -54,7 +54,7 @@ const Map = () => {
     <div className={styles.mapContainer}>
       {!hasGeoLocationPosition && (
         <Button type='position' onClick={getPosition}>
-          {isLoadingPosition ? 'Loading...' : 'Use your position'}
+          {isLoadingPosition ? 'Loading...' : 'Use my location'}
         </Button>
       )}
       <MapContainer center={[lat, lng]} zoom={6} scrollWheelZoom={true} className={styles.map}>
