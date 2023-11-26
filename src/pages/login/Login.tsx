@@ -4,12 +4,15 @@ import NavBar from '../../components/navbar/NavBar';
 import Button from '../../components/button/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ScaleLoader } from 'react-spinners';
 
 const Login = () => {
   const [email, setEmail] = useState('sm227465@gmail.com');
   const [password, setPassword] = useState('test1234');
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, responseError, setResponseError, isloading } = useAuth();
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -25,6 +28,16 @@ const Login = () => {
       navigate('/app', { replace: true });
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (responseError) {
+      toast(responseError);
+
+      setTimeout(() => {
+        setResponseError('');
+      }, 1000);
+    }
+  }, [responseError]);
 
   return (
     <main className={styles.login}>
@@ -47,11 +60,28 @@ const Login = () => {
         </div>
 
         <div>
-          <Button type='primary' onClick={() => {}}>
-            Login
-          </Button>
+          {isloading ? (
+            <ScaleLoader color='#00c46a' />
+          ) : (
+            <Button type='primary' onClick={() => {}}>
+              Login
+            </Button>
+          )}
         </div>
       </form>
+      <ToastContainer
+        style={{ fontSize: '18px' }}
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
     </main>
   );
 };

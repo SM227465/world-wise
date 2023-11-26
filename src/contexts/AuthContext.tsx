@@ -1,21 +1,15 @@
-import { createContext, useContext, useReducer } from 'react';
-import { userLogin } from '../services/auth.service';
-import ReducerAction2 from '../interfaces/reducerAction2';
+import { createContext, useContext, useState } from 'react';
+import { axiosNoAuthInstance } from '../services/axios.config';
+import { AxiosError } from 'axios';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: null | User;
+  responseError: string;
+  isloading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-}
-
-interface LoginResponse {
-  success: boolean;
-  token: {
-    access: string;
-    refresh: string | null;
-  };
-  user: User;
+  setResponseError: (errorMessage: string) => void;
 }
 
 interface User {
@@ -29,47 +23,42 @@ interface User {
   __v: number;
 }
 
-interface ReducerInitialState {
-  user: null | User;
-  isAuthenticated: boolean;
-}
-
 const AuthContext = createContext({} as AuthContextType);
-
-const initialState: ReducerInitialState = {
-  user: null,
-  isAuthenticated: false,
-};
-
-const reducer = (state: ReducerInitialState, action: ReducerAction2) => {
-  switch (action.type) {
-    case 'login':
-      return { ...state, user: action.payload, isAuthenticated: true };
-    case 'logout':
-      return { ...state, user: null, isAuthenticated: false };
-    default:
-      throw new Error('Unknown action');
-  }
-};
 
 interface Props {
   children: React.ReactNode;
 }
 const AuthProvider = (props: Props) => {
   const { children } = props;
-  const [{ user, isAuthenticated }, dispatch] = useReducer<
-    React.Reducer<ReducerInitialState, ReducerAction2>
-  >(reducer, initialState);
+  const [user, setUser] = useState({} as User);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [responseError, setResponseError] = useState('');
+  const [isloading, setIsLoding] = useState(false);
 
   const login = async (email: string, password: string) => {
-    const res = (await userLogin({ email, password })) as LoginResponse;
-    console.log('login', res);
-    dispatch({ type: 'login', payload: res });
+    setIsLoding(true);
+
+    try {
+      const res = await axiosNoAuthInstance.post('/api/v1/users/login', { email, password });
+      const data = res.data;
+      if (data.success) {
+        setIsAuthenticated(true);
+        setUser(data.user);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setResponseError(error.response?.data.message);
+      }
+    } finally {
+      setIsLoding(false);
+    }
   };
   const logout = () => {};
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, login, logout, responseError, setResponseError, isloading }}
+    >
       {children}
     </AuthContext.Provider>
   );
