@@ -95,30 +95,6 @@
         "lat": 22.814162440824852,
         "lng": 88.25042724609376
       }
-    },
-    {
-      "id": 1700920993612,
-      "cityName": "Kuseshwar",
-      "country": "India",
-      "emoji": "🇮🇳",
-      "date": "Sat Nov 25 2023 19:33:05 GMT+0530 (India Standard Time)",
-      "notes": "cascas",
-      "position": {
-        "lat": 25.780107118422244,
-        "lng": 86.2646484375
-      }
-    },
-    {
-      "id": 1700921050412,
-      "cityName": "Kanke",
-      "country": "India",
-      "emoji": "🇮🇳",
-      "date": "Sat Nov 25 2023 19:34:06 GMT+0530 (India Standard Time)",
-      "notes": "fdfdf",
-      "position": {
-        "lat": 23.56398712845123,
-        "lng": 85.23193359375001
-      }
     }
   ]
 }

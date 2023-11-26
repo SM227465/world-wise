@@ -8,6 +8,7 @@ interface CitiesContextType {
   currentCity: City;
   getCity: (id: number) => Promise<void>;
   createCity: (newCity: City) => Promise<void>;
+  deleteCity: (cityId: number) => Promise<void>;
 }
 
 const CitiesContext = createContext<CitiesContextType>({} as CitiesContextType);
@@ -76,8 +77,27 @@ const CitiesProvider = (props: Props) => {
     }
   };
 
+  const deleteCity = async (id: number) => {
+    const options = {
+      method: 'DELETE',
+    };
+
+    try {
+      setIsLoading(true);
+
+      await fetch(`${BASE_URL}/cities/${id}`, options);
+      setCities((cities) => cities.filter((city) => city.id !== id));
+    } catch (error) {
+      console.log('There was an error deleteing city', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity, createCity }}>
+    <CitiesContext.Provider
+      value={{ cities, isLoading, currentCity, getCity, createCity, deleteCity }}
+    >
       {children}
     </CitiesContext.Provider>
   );
