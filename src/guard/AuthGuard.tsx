@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   children: React.ReactNode;
@@ -7,13 +8,14 @@ interface Props {
 
 const AuthGuard = (props: Props) => {
   const { children } = props;
+  const navigate = useNavigate();
+  const [cookies] = useCookies(['accessToken']);
 
-  const [cookies] = useCookies(['accessToken', 'refreshToken']);
-  const location = useLocation();
-
-  if (!cookies?.accessToken) {
-    return <Navigate to='/login' replace state={location.pathname} />;
-  }
+  useEffect(() => {
+    if (!cookies?.accessToken) {
+      navigate('/login', { replace: true });
+    }
+  }, []);
 
   return cookies?.accessToken ? children : null;
 };

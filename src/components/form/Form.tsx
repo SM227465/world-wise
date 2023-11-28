@@ -1,14 +1,17 @@
+import { AxiosResponse } from 'axios';
 import { FormEvent, useEffect, useState } from 'react';
-import BackButton from '../back-btn/BackButton';
-import Button from '../button/Button';
-import styles from './Form.module.css';
-import { useUrlPosition } from '../../hooks/useUrlPosition';
-import { convertToEmoji } from '../../utils';
-import Message from '../message/Message';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useCities } from '../../contexts/CitiesContext';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useUrlPosition } from '../../hooks/useUrlPosition';
+import { addCity } from '../../services/city.service';
+import { convertToEmoji } from '../../utils';
+import BackButton from '../back-btn/BackButton';
+import Button from '../button/Button';
+import Message from '../message/Message';
+import styles from './Form.module.css';
 
 const BASE_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
 
@@ -16,7 +19,7 @@ const Form = () => {
   const [cityName, setCityName] = useState('');
   const [country, setCountry] = useState('');
   const navigate = useNavigate();
-  const { createCity, isLoading } = useCities();
+  const [isLoading, setIsLoading] = useState(false);
   const [lat, lng] = useUrlPosition();
   const [date, setDate] = useState<Date | null>(new Date());
   const [notes, setNotes] = useState('');
@@ -66,7 +69,6 @@ const Form = () => {
     }
 
     const newCity = {
-      id: Number(Date.now()),
       cityName,
       country,
       emoji,
@@ -75,8 +77,21 @@ const Form = () => {
       position: { lat, lng },
     };
 
-    await createCity(newCity);
-    navigate('/app/cities');
+    // await createCity(newCity);
+    setIsLoading(true);
+    const res = (await addCity(newCity)) as AxiosResponse;
+
+    if (res?.data?.success) {
+      toast(res?.data?.message);
+      navigate('/app/cities');
+    } else {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      toast((res as any)?.response?.data?.message.split(':')[1].trim() || 'Something went wrong!');
+    }
+
+    console.log('here', res);
+
+    setIsLoading(false);
   };
 
   if (!lat && !lng) {
@@ -116,6 +131,19 @@ const Form = () => {
         </Button>
         <BackButton />
       </div>
+      <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+      <ToastContainer />
     </form>
   );
 };

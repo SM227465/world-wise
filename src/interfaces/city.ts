@@ -1,4 +1,4 @@
-export default interface City {
+export interface City {
   cityName: string;
   country: string;
   emoji: string;
@@ -8,5 +8,17 @@ export default interface City {
     lat: number;
     lng: number;
   };
-  id: number;
+  _id: string;
+}
+
+export interface NewCity {
+  cityName: string;
+  country: string;
+  emoji: string;
+  date: string;
+  notes: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
 }

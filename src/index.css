@@ -73,6 +73,10 @@ input:focus {
   border-radius: 5px;
 }
 
+.Toastify__toast-body {
+  font-size: 16px;
+}
+
 /*
 "importCSSModule": {
     "prefix": "csm",

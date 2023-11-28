@@ -1,5 +1,5 @@
-import { ReactNode, createContext, useContext, useEffect, useReducer } from 'react';
-import City from '../interfaces/city';
+import { ReactNode, createContext, useContext, useReducer } from 'react';
+import { City } from '../interfaces/city';
 import ReducerAction from '../interfaces/reducerAction';
 import ReducerInitialState from '../interfaces/reducerInitialState';
 const BASE_URL = 'http://localhost:8000';
@@ -9,9 +9,9 @@ interface CitiesContextType {
   isLoading: boolean;
   cities: City[];
   currentCity: City;
-  getCity: (id: number) => Promise<void>;
+  getCity: (id: string) => Promise<void>;
   createCity: (newCity: City) => Promise<void>;
-  deleteCity: (cityId: number) => Promise<void>;
+  deleteCity: (cityId: string) => Promise<void>;
 }
 
 const initialState: ReducerInitialState = {
@@ -52,7 +52,7 @@ const reducer = (state: ReducerInitialState, action: ReducerAction): ReducerInit
       return {
         ...state,
         isLoading: false,
-        cities: state.cities.filter((city) => city.id !== action.payload),
+        cities: state.cities.filter((city) => city._id !== action.payload),
         currentCity: {} as City,
       };
   }
@@ -64,24 +64,8 @@ const CitiesProvider = (props: Props) => {
     React.Reducer<ReducerInitialState, ReducerAction>
   >(reducer, initialState);
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      dispatch({ type: 'loading' });
-      try {
-        const res = await fetch(BASE_URL + '/cities');
-        const data = await res.json();
-
-        dispatch({ type: 'cities/loaded', payload: data });
-      } catch (error) {
-        dispatch({ type: 'rejected', payload: 'There was an error in loading cities.' });
-      }
-    };
-
-    fetchCities();
-  }, []);
-
-  const getCity = async (id: number) => {
-    if (id === currentCity.id) {
+  const getCity = async (id: string) => {
+    if (id === currentCity._id) {
       return;
     }
 
@@ -118,7 +102,7 @@ const CitiesProvider = (props: Props) => {
     }
   };
 
-  const deleteCity = async (id: number) => {
+  const deleteCity = async (id: string) => {
     const options = {
       method: 'DELETE',
     };

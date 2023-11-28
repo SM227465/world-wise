@@ -1,9 +1,8 @@
-import { axiosNoAuthInstance } from './axios.config';
+import { axiosNoAuthInstance } from '../configs/axios.config';
 
 export const userLogin = async (payload: object) => {
   try {
-    const res = await axiosNoAuthInstance.post('/api/v1/users/login', payload);
-    return res;
+    return await axiosNoAuthInstance.post('/api/v1/users/login', payload);
   } catch (error) {
     return error;
   }

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { axiosNoAuthInstance } from '../services/axios.config';
+import { axiosNoAuthInstance } from '../configs/axios.config';
 import { AxiosError } from 'axios';
 import { useCookies } from 'react-cookie';
 

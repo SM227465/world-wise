@@ -63,7 +63,7 @@ const Map = () => {
           url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
         />
         {cities.map((city) => (
-          <Marker position={[city.position.lat, city.position.lng]} key={city.id}>
+          <Marker position={[city.position.lat, city.position.lng]} key={city._id}>
             <Popup>
               <span>{city.emoji}</span>
               <span>{city.cityName}</span>
