@@ -1,5 +1,5 @@
 import { useCities } from '../../contexts/CitiesContext';
-import City from '../../interfaces/city';
+import { City } from '../../interfaces/city';
 import Country from '../../interfaces/country';
 import CountryItem from '../country/CountryItem';
 import NoCityMessage from '../no-city-message/NoCityMessage';

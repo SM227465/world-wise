@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import City from '../../interfaces/city';
+import { City } from '../../interfaces/city';
 import { getCities } from '../../services/city.service';
 import CityItem from '../city-item/CityItem';
 import NoCityMessage from '../no-city-message/NoCityMessage';

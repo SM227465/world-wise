@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCities } from '../../contexts/CitiesContext';
-import City from '../../interfaces/city';
+import { City } from '../../interfaces/city';
 import styles from './CityItem.module.css';
 import React from 'react';
 
@@ -22,15 +22,15 @@ const CityItem = (props: Props) => {
   const handleDeleteCity = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    deleteCity(city.id);
+    deleteCity(city._id);
   };
 
   return (
     <li>
       <Link
-        to={`${city.id}?lat=${city.position.lat}&lng=${city.position.lng}`}
+        to={`${city._id}?lat=${city.position.lat}&lng=${city.position.lng}`}
         className={`${styles.cityItem} ${
-          city.id === currentCity.id ? styles['cityItem--active'] : ''
+          city._id === currentCity._id ? styles['cityItem--active'] : ''
         }`}
       >
         <span className={styles.emoji}>{city.emoji}</span>

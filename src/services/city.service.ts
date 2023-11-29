@@ -16,3 +16,11 @@ export const addCity = async (city: NewCity) => {
     return error;
   }
 };
+
+export const getCity = async (cityId: string) => {
+  try {
+    return await axiosAuthInstance.get(`/api/v1/cities${cityId}`);
+  } catch (error) {
+    return error;
+  }
+};

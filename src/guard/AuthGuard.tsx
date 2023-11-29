@@ -15,7 +15,7 @@ const AuthGuard = (props: Props) => {
     if (!cookies?.accessToken) {
       navigate('/login', { replace: true });
     }
-  }, []);
+  }, [cookies?.accessToken, navigate]);
 
   return cookies?.accessToken ? children : null;
 };

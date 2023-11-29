@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useCities } from '../../contexts/CitiesContext';
+import BackButton from '../back-btn/BackButton';
 import Spinner from '../spinner/Spinner';
 import styles from './City.module.css';
-import BackButton from '../back-btn/BackButton';
+import { getCity } from '../../services/city.service';
+import { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { City } from '../../interfaces/city';
 
 const City = () => {
   const { id } = useParams();
-  const { currentCity, getCity, isLoading } = useCities();
+  // const { currentCity, getCity, isLoading } = useCities();
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState({} as City);
 
   const formatDate = (date: string): string => {
     return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -16,7 +21,28 @@ const City = () => {
   };
 
   useEffect(() => {
-    getCity(Number(id));
+    // getCity(id);
+    const getCurrentCity = async () => {
+      if (!id) {
+        return;
+      }
+
+      setIsLoading(true);
+
+      const res = (await getCity(id)) as AxiosResponse;
+
+      if (res?.data?.success) {
+        toast(res?.data?.message);
+        setCurrentCity(res.data.city);
+      } else {
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        toast(
+          (res as any)?.response?.data?.message.split(':')[1].trim() || 'Something went wrong!'
+        );
+      }
+    };
+
+    getCurrentCity();
   }, [id]);
 
   if (isLoading) {
