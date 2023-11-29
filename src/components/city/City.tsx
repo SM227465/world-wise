@@ -40,6 +40,8 @@ const City = () => {
           (res as any)?.response?.data?.message.split(':')[1].trim() || 'Something went wrong!'
         );
       }
+
+      setIsLoading(false);
     };
 
     getCurrentCity();
